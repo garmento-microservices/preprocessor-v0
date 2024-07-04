@@ -1,0 +1,51 @@
+[project]
+name = "preprocessor"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "binhdoitsme", email = "binhdoitsme@gmail.com"},
+]
+dependencies = [
+    "torchvision",
+    "scipy",
+    "tensorboardX",
+    "numpy",
+    "opencv-python",
+    "matplotlib",
+    "networkx",
+    "iglovikov-helper-functions",
+    "cloths-segmentation",
+    "albumentations",
+    "torch",
+    "detectron2 @ git+https://github.com/facebookresearch/detectron2.git",
+    "pydantic>=2.7.0",
+    "fastapi>=0.110.2",
+    "sqlalchemy>=2.0.29",
+    "pillow==9.5.0",
+    "injector>=0.21.0",
+    "av>=12.0.0",
+    "mysqlclient>=2.2.4",
+    "alembic>=1.13.1",
+    "python-multipart>=0.0.9",
+    "uvicorn",
+    "python-dotenv",
+    "py-eureka-client>=0.11.10",
+]
+requires-python = "==3.10.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+[build-system]
+requires = ["setuptools", "wheel", "torch"]
+build-backend = "setuptools.build_meta:__legacy__"
+
+[tool.pdm.scripts]
+_.env_file = ".env"
+dev = "uvicorn preprocessor.main:app --reload --app-dir src"
+create_migration = "alembic revision --autogenerate" # -m "<message>"
+apply_migration = "alembic upgrade head"
+rollback_migration = "alembic downgrade head-1"

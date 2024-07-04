@@ -1,0 +1,1 @@
+from .inference import do_human_segmentation_inference

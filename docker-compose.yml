@@ -1,0 +1,22 @@
+version: "3.9"
+name: garmento-preprocessor
+services:
+  db:
+    image: mysql:8
+    container_name: db
+    ports:
+      - "6603:3306"
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: "1"
+      MYSQL_DATABASE: preprocessing
+      MYSQL_USER: preprocessor
+      MYSQL_PASSWORD: preprocessor
+    volumes:
+      - ./data:/var/lib/mysql
+  
+  app:
+    container_name: app
+    image: preprocessor:0.0.1
+    ports:
+      - "8001:8000"
