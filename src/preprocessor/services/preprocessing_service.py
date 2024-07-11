@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from typing import BinaryIO
 from uuid import UUID, uuid4
 
+from preprocessor.services.pose_extractor import render_posenet
+
 from .garment_extractor.commands import extract_garment_mask
 from .human_segmentator import do_human_segmentation_inference
 from .job_repository import JobRepository
@@ -48,11 +50,12 @@ class PreprocessingService:
         return pose_output_file
 
     async def process_densepose(self, job: PreprocessingJob, base_folder: str):
-        # densepose
+        # USE rendered openpose instead of densepose to temporarily make VITON-HD work
         densepose_output_file = os.path.join(base_folder, "densepose.jpg")
-        run_densepose(
+        render_posenet(
             input_file=job.ref_image,
             output_file=densepose_output_file,
+            size=self.IMAGE_SIZE,
         )
         return densepose_output_file
 
