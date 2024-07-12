@@ -46,8 +46,9 @@ class PreprocessingService:
     async def process_poses(self, job: PreprocessingJob, base_folder: str):
         # pose keypoints
         pose_output_file = os.path.join(base_folder, "keypoints.json")
+        densepose_output_file = os.path.join(base_folder, "densepose.jpg")
         extract_poses(input_file=job.ref_image, output_file=pose_output_file)
-        return pose_output_file
+        return pose_output_file, densepose_output_file
 
     async def process_densepose(self, job: PreprocessingJob, base_folder: str):
         # USE rendered openpose instead of densepose to temporarily make VITON-HD work
@@ -81,13 +82,13 @@ class PreprocessingService:
             if not with_preset:
                 (
                     garment_only_output_file,
-                    pose_output_file,
-                    densepose_output_file,
+                    (pose_output_file,
+                    densepose_output_file),
                     segmentation_output_file,
                 ) = await asyncio.gather(
                     self.process_garment(job, base_folder),
                     self.process_poses(job, base_folder),
-                    self.process_densepose(job, base_folder),
+                    # self.process_densepose(job, base_folder),
                     self.process_segmentation(job, base_folder),
                 )
 

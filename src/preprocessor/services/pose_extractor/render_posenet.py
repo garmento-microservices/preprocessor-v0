@@ -13,7 +13,7 @@ def render_posenet(
     width, height = size
     img = np.zeros((height, width, 3))
     pose_keypoints: list[float] = json.load(open(input_file))["people"][0][
-        "pose_keypoints_2d "
+        "pose_keypoints_2d"
     ]
 
     poses = [[pose_keypoints[i : i + 3] for i in range(0, len(pose_keypoints), 3)]]
